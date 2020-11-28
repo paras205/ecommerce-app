@@ -59,7 +59,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Order"
+        name="WishList"
         component={OrderPage}
         options={{
           tabBarIcon: ({ color }) => (

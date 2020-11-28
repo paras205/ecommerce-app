@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Image
+} from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 import Title from "../../components/Title";
@@ -31,40 +37,29 @@ const DATA = [
   }
 ];
 
-const horizontalMargin = 20;
-const slideWidth = 280;
+const horizontalMargin = 1;
+const slideWidth = 300;
 
 const sliderWidth = Dimensions.get("window").width;
-const itemWidth = slideWidth + horizontalMargin * 4;
-const itemHeight = 300;
+const itemWidth = slideWidth;
+const itemHeight = 260;
 
 const TopSeller = ({ navigation }) => {
   const renderItem = ({ item, index }) => {
     return (
-      <View style={styles.slide} key={index}>
-        <View
-          style={{
-            backgroundColor: "#fff",
-            elevation: 1,
-            borderBottomLeftRadius: 4,
-            borderBottomRightRadius: 4,
-            overflow: "hidden",
-            padding: 2
-          }}
-        >
-          <Image source={item.image} style={{ height: 240, width: "100%" }} />
+      <TouchableOpacity onPress={() => console.log("go to product Page")}>
+        <View style={styles.slide} key={index}>
           <View
             style={{
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-              elevation: 1
+              borderBottomLeftRadius: 4,
+              borderBottomRightRadius: 4
             }}
           >
-            <Text style={styles.title}>{item.title}</Text>
+            <Image source={item.image} style={{ height: 240, width: "100%" }} />
+            <View>{/* <Text style={styles.title}>{item.title}</Text> */}</View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -79,7 +74,6 @@ const TopSeller = ({ navigation }) => {
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
           data={DATA}
-          layout={"stack"}
         />
       </View>
     </View>

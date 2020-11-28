@@ -11,9 +11,21 @@ import BackIcon from "react-native-vector-icons/FontAwesome";
 import HeartIcon from "react-native-vector-icons/AntDesign";
 import PlusIcon from "react-native-vector-icons/AntDesign";
 import MinusIcon from "react-native-vector-icons/AntDesign";
+// import Share from "react-native-share";
 
 const Detail = ({ route, navigation }) => {
   const { title, image, totalItems } = route.params;
+  const shareSocialOptions = async () => {
+    // const shareOptions = {
+    //   message: "This is a test message"
+    // };
+    //TODO: to share files we have to convert files into base64 format
+    // try {
+    //   const shareResponse = await Share.open(shareOptions);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ marginTop: 30 }}>
@@ -103,18 +115,6 @@ const Detail = ({ route, navigation }) => {
               publishing software like Aldus PageMaker including versions of
               Lorem Ipsum
             </Text>
-            <Text style={styles.copyright}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1400s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum
-            </Text>
           </View>
         </View>
       </ScrollView>
@@ -122,9 +122,9 @@ const Detail = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={() => console.log("add to cart")}
           style={{
-            backgroundColor: "#ffa695",
-            paddingHorizontal: 20,
-            paddingVertical: 15,
+            backgroundColor: "#25d06f",
+            paddingHorizontal: 18,
+            paddingVertical: 12,
             borderRadius: 25
           }}
         >
@@ -145,8 +145,8 @@ const Detail = ({ route, navigation }) => {
             flexDirection: "row",
             backgroundColor: "#eef5f9",
             alignItems: "center",
-            paddingHorizontal: 20,
-            paddingVertical: 15,
+            paddingHorizontal: 18,
+            paddingVertical: 12,
             borderRadius: 25
           }}
         >
@@ -160,13 +160,38 @@ const Detail = ({ route, navigation }) => {
             style={{
               paddingRight: 10,
               fontFamily: "PT-sans-bold",
-              fontSize: 17
+              fontSize: 16
             }}
           >
             {totalItems}
           </Text>
           <TouchableOpacity onPress={() => console.log("decrese")}>
             <MinusIcon name="minus" size={20} color="#212121" />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#ffa695",
+              alignItems: "center",
+              paddingHorizontal: 18,
+              paddingVertical: 12,
+              borderRadius: 25,
+              textAlign: "center"
+            }}
+            onPress={shareSocialOptions}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontFamily: "PT-sans-bold",
+                fontSize: 16,
+                textAlign: "center"
+              }}
+            >
+              Share
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -183,7 +208,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     elevation: 1,
     flexDirection: "row",

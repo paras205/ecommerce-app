@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -8,33 +8,47 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
+import BottomSheet from "reanimated-bottom-sheet";
+import Slider from "@react-native-community/slider";
+import RadioButtonRN from "radio-buttons-react-native";
+import RadioIcon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/AntDesign";
 import HeartIcon from "react-native-vector-icons/AntDesign";
+import FilterIcon from "react-native-vector-icons/Foundation";
+import { RadioButton } from "react-native-paper";
 
 const DATA = [
   {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28baasd",
     title: "First Item",
     totalItems: 4000,
     image: require("../../assets/images/shoes.jpg")
   },
   {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63asd",
     title: "Second Item",
     totalItems: 1200,
     image: require("../../assets/images/bag.jpg")
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d72asd",
     title: "Third Item",
     totalItems: 80,
     image: require("../../assets/images/jacket.jpg")
   },
   {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28basdr",
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28basdrasd",
     title: "First Item",
     totalItems: 40000,
     image: require("../../assets/images/shoes.jpg")
+  }
+];
+const Radiodata = [
+  {
+    label: "20000 - 800000"
+  },
+  {
+    label: "4000 - 5000"
   }
 ];
 const Item = ({ title, totalItems, image, navigation }) => (
@@ -81,32 +95,128 @@ const Item = ({ title, totalItems, image, navigation }) => (
   </View>
 );
 const Product = ({ navigation }) => {
-  return (
-    <ScrollView style={styles.wrapper}>
-      <View
+  const handleValue = (val) => {
+    console.log(val);
+  };
+  const renderContent = () => (
+    <View
+      style={{
+        backgroundColor: "white",
+        paddingVertical: 30,
+        paddingHorizontal: 30,
+        height: 400,
+        elevation: 1
+      }}
+    >
+      <Text
         style={{
-          paddingVertical: 20,
-          flexDirection: "row",
-          paddingHorizontal: 10,
-          justifyContent: "space-between"
+          fontFamily: "PT-sans-bold",
+          textTransform: "uppercase",
+          fontSize: 17,
+          marginBottom: 30,
+          color: "#555"
         }}
       >
-        <TextInput placeholder="Search..." style={styles.producSearch} />
+        Filter Options
+      </Text>
+      <View style={{ marginBottom: 20 }}>
+        <Slider
+          style={{ width: "100%", height: 40 }}
+          minimumValue={0}
+          maximumValue={500}
+          minimumTrackTintColor="red"
+          onValueChange={handleValue}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+        />
       </View>
-      <View style={styles.list}>
-        {DATA.map((item) => {
-          return (
-            <Item
-              title={item.title}
-              totalItems={item.totalItems}
-              image={item.image}
-              navigation={navigation}
-              id={item.id}
-            />
-          );
-        })}
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            console.log("sort by descending");
+          }}
+          style={{
+            paddingBottom: 15,
+            borderBottomColor: "#ddd",
+            borderBottomWidth: 1
+          }}
+        >
+          <Text style={{ fontFamily: "PT-sans", color: "#555" }}>
+            Sort by Date Descending
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            paddingBottom: 15,
+            borderBottomColor: "#ddd",
+            borderBottomWidth: 1,
+            paddingTop: 15
+          }}
+          onPress={() => {
+            console.log("sort by ascending");
+          }}
+        >
+          <Text style={{ fontFamily: "PT-sans", color: "#555" }}>
+            Sort by Date ascending
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+      <View style={{ marginTop: 10 }}>
+        <RadioButtonRN
+          data={Radiodata}
+          selectedBtn={(e) => console.log(e)}
+          icon={<RadioIcon name="check-circle" size={25} color="#2c9dd1" />}
+        />
+      </View>
+    </View>
+  );
+  const sheetRef = useRef(null);
+  return (
+    <>
+      <ScrollView style={styles.wrapper}>
+        <View
+          style={{
+            paddingVertical: 20,
+            flexDirection: "row",
+            paddingHorizontal: 10,
+            justifyContent: "space-between"
+          }}
+        >
+          <TextInput placeholder="Search..." style={styles.producSearch} />
+          <View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#ffa695",
+                padding: 10,
+                borderRadius: 4
+              }}
+              onPress={() => sheetRef.current.snapTo(0)}
+            >
+              <FilterIcon name="filter" size={20} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.list}>
+          {DATA.map((item) => {
+            return (
+              <Item
+                title={item.title}
+                totalItems={item.totalItems}
+                image={item.image}
+                navigation={navigation}
+                key={item.id}
+              />
+            );
+          })}
+        </View>
+      </ScrollView>
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={[400, 300, 0]}
+        borderRadius={25}
+        renderContent={renderContent}
+      />
+    </>
   );
 };
 
@@ -173,7 +283,7 @@ const styles = StyleSheet.create({
     fontFamily: "PT-sans",
     borderBottomColor: "#ddd",
     borderBottomWidth: 1,
-    width: "100%",
+    width: "90%",
     height: 50
   }
 });
